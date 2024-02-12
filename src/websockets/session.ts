@@ -3,8 +3,10 @@ import { sendToAllClientsInSession } from './utils';
 import { connectedClients, sessions } from './ws';
 
 // Handle a client's request to join an existing game session
-export const joinSession = async (data: any, clientId: string) => {
+export const joinSession = async (data: any, ws: any) => {
   const sessionId = data.sessionId;
+  const clientId = data.clientId;
+  connectedClients[clientId] = { ws, clientId };
 
   if (!sessions[sessionId]) {
     // Create a new session with the initiating player

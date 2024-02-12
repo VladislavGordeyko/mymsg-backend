@@ -6,12 +6,12 @@ import { getRemainingPlayers, sendToAllClientsInSession } from './utils';
 import { IGamePayload, WSMessageType } from './models';
 
 // Handle messages received on the WebSocket.
-export const handleMessage = async (message: WebSocket.Data, clientId: string, ws: WebSocket) => {
+export const handleMessage = async (message: WebSocket.Data, ws: WebSocket) => {
   const data = JSON.parse(message.toString());
 
   switch (data.type) {
   case 'JOIN_SESSION':
-    await joinSession(data, clientId);
+    await joinSession(data, ws);
     break;
   case 'START_GAME':
     await startGame(data);
@@ -31,6 +31,10 @@ export const handleMessage = async (message: WebSocket.Data, clientId: string, w
 // global list and also performs necessary cleanup from any sessions they were part of.
 export const handleClose = (clientId: string) => {
   // Cleanup: Remove the disconnected client from connectedClients and any session they're part of
+  console.log('WebSocket closed. Attempting to reconnect...');
+  console.log('closing', clientId, {connectedClients});
+  console.log({sessions});
+
   delete connectedClients[clientId];
       
   for (const sessionId in sessions) {

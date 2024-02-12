@@ -1,6 +1,5 @@
 import { Server } from 'ws';
 import WebSocket from 'ws';
-import { v4 as uuidv4 } from 'uuid';
 import {  IClientArray, ISessionArray } from './models';
 import { handleClose, handleMessage } from './handlers';
 
@@ -9,14 +8,22 @@ export const connectedClients: IClientArray = {};
 export const sessions: ISessionArray = {};
 
 const setupWebSocket = (server: any) => {
+  let clientId = '';
   const wss = new Server({ server });
 
   wss.on('connection', (ws: WebSocket) => {
-    const clientId = uuidv4();
-    connectedClients[clientId] = { clientId, ws };
+    // const clientId = uuidv4();
+    // connectedClients.push(ws);
 
     // Listen for messages from this client
-    ws.on('message', (message) => handleMessage(message, clientId, ws));
+    ws.on('message', (message: WebSocket.RawData) => {
+      const data = JSON.parse(message.toString());
+      if (data.type === 'JOIN_SESSION') {
+        clientId = data.clientId;
+      }
+      console.log('MESSAGE', {clientId});
+      handleMessage(message, ws);
+    });
 
     // Clean up when a client disconnects
     ws.on('close', () => handleClose(clientId));
