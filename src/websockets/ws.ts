@@ -29,6 +29,14 @@ const setupWebSocket = (server: any) => {
     // Clean up when a client disconnects
     ws.on('close', () => handleClose(clientId));
   });
+
+  setInterval(() => {
+    wss.clients.forEach((client) => {
+      client.send(new Date().toTimeString());
+    });
+  }, 30000);
 };
+
+
 
 export default setupWebSocket;
