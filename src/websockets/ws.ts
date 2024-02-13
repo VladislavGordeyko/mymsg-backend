@@ -32,7 +32,7 @@ const setupWebSocket = (server: any) => {
 
   setInterval(() => {
     wss.clients.forEach((client) => {
-      client.send(new Date().toTimeString());
+      client.send(JSON.stringify(new Date().toTimeString()));
     });
   }, 30000);
 };
