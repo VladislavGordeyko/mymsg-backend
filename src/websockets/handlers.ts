@@ -53,7 +53,7 @@ export const handleClose = (clientId: string) => {
     // If players remain, assign the turn to the next available player
     // const gameStatus = getInitialGameStatus();
 
-    session.players[0].isHost = true;
+    // session.players[0].isHost = true;
     // sessions[sessionId].gameStatus = gameStatus;
 
     const payload : IGamePayload = {

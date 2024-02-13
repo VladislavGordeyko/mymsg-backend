@@ -8,10 +8,11 @@ export const connectedClients: IClientArray = {};
 export const sessions: ISessionArray = {};
 
 const setupWebSocket = (server: any) => {
-  let clientId = '';
+  
   const wss = new Server({ server });
 
   wss.on('connection', (ws: WebSocket) => {
+    let clientId = '';
     // const clientId = uuidv4();
     // connectedClients.push(ws);
 
