@@ -23,8 +23,10 @@ export const joinSession = async (data: any, ws: any) => {
   if (session.players.length === 0) {
     player.isHost = true;
   }
-  session.players.push(player);
 
+  console.log('joining', {clientId}, 'players -',session.players);
+  session.players.push(player);
+  console.log('pushing new player');
   const payload = {
     type: WSMessageType.SESSION_JOINED,
     sessionId,
