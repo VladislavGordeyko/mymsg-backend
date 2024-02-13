@@ -24,10 +24,10 @@ export const getFileLink = async (bot: TelegramBot, fileId: string) => {
 export const getUserPhotoLink = async (bot: TelegramBot, userId: string) => {
   try {
     const result = await bot.getUserProfilePhotos(Number(userId), {limit: 0, offset: 0});
-    console.log(result.photos);
+    // console.log(result.photos);
     if (result.total_count > 0) {
       const link = await getFileLink(bot, result.photos[0][0].file_id);
-      console.log({link});
+      // console.log({link});
       return link;
     } else {
       return '';
